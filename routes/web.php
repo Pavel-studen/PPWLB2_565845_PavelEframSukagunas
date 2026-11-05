@@ -1,55 +1,30 @@
 <?php
 
+use App\Http\Controllers\PostController;
+use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get( '/hello-world' , function() {
-    return '<h1>Routing for Website</h1>' ;
-})->name('hello-world');
+Route::get('/dashboard', function () {
+    return view('dashboard');
+})->middleware(['auth', 'admin'])->name('dashboard');
 
-Route::get('/hello/{name?}', function ($name = 'No Name'){
-    return '<h1>Hello ' . $name . '</h1>';
-})->name('hello');
+Route::get('/posts/projects', [AuthenticatedSessionController::class, 'store']);
 
-Route::redirect('/empty', '/');
-
-Route::get('/test-maker', function() {
-    return view('test_maker');
+Route::middleware(['auth', 'admin'])->group(function () {
+    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-Route::get('/hello-blade', function(){
-    return view('hello', ['data' => 'Data example']);
+Route::prefix('posts')->name('posts.')->middleware(['auth'])->group(function () {
+    Route::get('/profile-saya', function() {
+        return view('profile-saya');
+    })->name('profile-saya');
 });
 
-Route::get('/profile', function() {
-    return view('profile', [
-        'name' => 'Pavel',
-        'age' => '20',
-        'place' => 'Yogyakarta',
-    ]);
-});
-
-// Route::get('/profile', function() {
-//     return view('profile')
-//         ->with('name', 'Pavel')
-//         ->with('age', 20);
-// });
-
-// Route::get('/profile', function() {
-//     $name = 'Pavel';
-//     $age = 20;
-//     $place = 'Yogyakarta';
-// return view('profile', compact('name', 'age', 'place'));
-// });
-
-Route::get('/', fn() => view('home'))->name('home');
-Route::get('/about', fn() => view('about'))->name('about');
-Route::get('/education', fn() => view('education'))->name('education');
-Route::get('/projects', fn() => view('projects'))->name('projects');
-
-use App\Http\Controllers\PostController;
-
-Route::resource('posts', PostController::class);
+require __DIR__.'/auth.php';

@@ -1,77 +1,9 @@
-@import 'tailwindcss';
-
-@source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
-@source '../../storage/framework/views/*.php';
+@import "tailwindcss";
+@source "../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php";
+@source "../../storage/framework/views/*.php";
 @source "../**/*.blade.php";
 @source "../**/*.js";
-@source "../**/*.vue";
 
-@theme {
-    --font-sans: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
-        'Segoe UI Symbol', 'Noto Color Emoji';
-}
-
-body {
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-    color: #2d3748;
-    margin: 0;
-    padding: 0;
-}
-
-nav {
-    display: flex;
-    justify-content: center;
-    gap: 20px;
-    padding: 20px;
-    border-bottom: 1px solid #e2e8f0;
-    font-size: 18px;
-}
-
-nav a {
-    text-decoration: none;
-    color: #4a5568;
-}
-
-nav a:hover {
-    color: #1a202c;
-    font-weight: bold;
-}
-
-main {
-    max-width: 800px;
-    margin: 40px auto;
-    padding: 0 20px;
-    text-align: center;
-}
-
-h1 {
-    font-size: 3.5rem;
-    font-weight: normal;
-    margin-bottom: 10px;
-}
-
-label {
-    display: block;
-    text-align: left;
-    margin-bottom: 5px;
-    font-weight: bold;
-}
-
-input, textarea {
-    display: block;
-    width: 100%;
-    padding: 10px;
-    border: 1px solid #e2e8f0;
-    border-radius: 4px;
-    font-size: 16px;
-    margin-bottom: 20px;
-}
-
-footer {
-    text-align: center;
-    padding: 20px;
-    border-top: 1px solid #e2e8f0;
-    font-size: 14px;
-    color: white;
-    background-color: green;
-}
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
