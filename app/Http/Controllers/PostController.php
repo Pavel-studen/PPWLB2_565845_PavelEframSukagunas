@@ -30,7 +30,7 @@ class PostController extends Controller
         // $posts = $query->paginate(10)->withQueryString();
         $perPage = $request->input('perPage', 10);
         $posts = Post::paginate($perPage)->withQueryString();
-        return view('posts.index', compact('posts'));
+        return view('posts.index', compact('post'));
     }
 
     /**
@@ -86,7 +86,7 @@ class PostController extends Controller
         if (!$post) {
             abort(404);
         }
-        $post = Post::findOrFail($id);
+        $post = \App\Models\Post::findOrFail($id);
         return view('posts.show', compact('post'));
     }
 
@@ -124,5 +124,9 @@ class PostController extends Controller
         $post = Post::findOrFail($id);
         $post->delete();
         return redirect()->route('posts.index')->with('success', 'Data successfully deleted.');
+    }
+    public function home()
+    {
+        return view('posts.home');
     }
 }

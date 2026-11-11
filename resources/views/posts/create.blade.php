@@ -1,10 +1,12 @@
 @extends('layouts.app')
 
+@section('title, 'Post')
+
 @section('content')
 <div class="jumbotron jumbotron-fluid">
     <div class="container">
         <h1>Add Blog Post</h1>
-        <form action="{{ route('posts.store') }}" method="POST">
+        <form action="{{ route('posts.project.store') }}" method="POST">
             @csrf
             <div class="form-group">
                 <label for="title">Title</label>
