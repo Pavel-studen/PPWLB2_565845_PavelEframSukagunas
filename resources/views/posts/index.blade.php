@@ -1,6 +1,4 @@
-@extends('layouts.app')
-
-@section('content')
+<x-app-layout>
     <div class="jumbotron jumbotron-fluid">
         <div class="container">
         <h1>Blog Posts</h1>
@@ -42,5 +40,4 @@
         <a href="{{ route('posts.create') }}">Create New Post</a>
         </div>
     </div>
-
-@endsection
+</x-app-layout>
