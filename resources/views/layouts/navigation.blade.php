@@ -29,14 +29,8 @@
                         <x-nav-link :href="route('post.projects.index')" :active="request()->routeIs('post.projects.*')">
                             {{ __('Projects') }}
                         </x-nav-link>
-                        <x-nav-link :href="route('post.categories.index')" :active="request()->routeIs('post.categories.*')">
-                            {{ __('Categories') }}
-                        </x-nav-link>
-                        <x-nav-link :href="route('post.technologies.index')" :active="request()->routeIs('post.technologies.*')">
-                            {{ __('Technologies') }}
-                        </x-nav-link>
                         <x-nav-link :href="route('post.profile-saya')" :active="request()->routeIs('post.profile-saya')">
-                            {{ __('Profile') }}
+                            {{ __('My Profile') }}
                         </x-nav-link>
                     @endauth
                 </div>
