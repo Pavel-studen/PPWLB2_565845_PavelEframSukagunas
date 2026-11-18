@@ -1,55 +1,75 @@
-<x-app-layout>
-    <div class="bg-white p-4 rounded shadow-sm">
-        <div class="d-flex justify-content-between align-items-center mb-3">
-            <h1 class="text-3xl font-bold">Daftar Projects</h1>
-            <a href="{{ route('post.projects.create') }}" class="btn btn-primary">+ Tambah Project</a>
-        </div>
+@extends('layouts.app')
 
-        @if(session('success'))
-            <div class="alert alert-success">{{ session('success') }}</div>
-        @endif
-
-        @if($projects->count() > 0)
-            <div class="table-responsive">
-                <table class="table table-bordered align-middle">
-                    <thead class="table-light">
-                        <tr>
-                            <th>No</th>
-                            <th>Thumbnail</th>
-                            <th>Nama Project</th>
-                            <th>Kategori</th>
-                            <th>Aksi</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach($projects as $project)
-                            <tr>
-                                <td>{{ $loop->iteration }}</td>
-                                <td>
-                                    @if($project->thumbnail)
-                                        <img src="{{ Storage::url($project->thumbnail) }}" width="80" class="rounded">
-                                    @else
-                                        <span class="text-muted small">Tidak ada</span>
-                                    @endif
-                                </td>
-                                <td>{{ $project->name }}</td>
-                                <td>{{ $project->category->name ?? '-' }}</td>
-                                <td>
-                                    <a href="{{ route('post.projects.edit', $project) }}" class="btn btn-sm btn-warning">Edit</a>
-                                    <form action="{{ route('post.projects.destroy', $project) }}" method="POST" class="d-inline">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button class="btn btn-sm btn-danger" onclick="return confirm('Hapus project?')">Hapus</button>
-                                    </form>
-                                </td>
-                            </tr>
-                        @endforeach
-                    </tbody>
-                </table>
-            </div>
-            {{ $projects->links() }}
-        @else
-            <p class="text-muted">Belum ada data project.</p>
-        @endif
+@section('content')
+<div class="container">
+    <h2>Daftar Projects</h2>
+    
+    <div style="margin-bottom: 15px;">
+        <a href="{{ url('/post/projects/create') }}">+ Tambah Project</a>
     </div>
-</x-app-layout>
+
+    <form method="GET" action="{{ url('/post/projects') }}" style="margin-bottom: 1rem; display: flex; gap: 0.5rem;">
+        <input type="text" name="search" value="{{ request('search') }}" placeholder="Cari project...">
+        
+        <select name="category">
+            <option value="">Semua kategori</option>
+            @foreach ($categories as $c)
+                <option value="{{ $c->id }}" @selected(request('category') === $c->id)>
+                    {{ $c->name }}
+                </option>
+            @endforeach
+        </select>
+
+        <select name="sort">
+            <option value="terbaru" @selected(request('sort') === 'terbaru')>Terbaru</option>
+            <option value="terlama" @selected(request('sort') === 'terlama')>Terlama</option>
+            <option value="az" @selected(request('sort') === 'az')>Judul A-Z</option>
+        </select>
+
+        <button type="submit">Cari</button>
+    </form>
+
+    <table style="width: 100%; text-align: left; border-collapse: collapse;">
+        <thead>
+            <tr style="border-bottom: 1px solid #ccc;">
+                <th>No</th>
+                <th>Thumbnail</th>
+                <th>Nama Project</th>
+                <th>Kategori</th>
+                <th>Aksi</th>
+            </tr>
+        </thead>
+        <tbody>
+            @forelse ($projects as $index => $project)
+                <tr>
+                    <td>{{ $projects->firstItem() + $index }}</td>
+                    <td>
+                        @if($project->thumbnail)
+                            Ada
+                        @else
+                            Tidak ada
+                        @endif
+                    </td>
+                    <td>{{ $project->name }}</td>
+                    <td>{{ $project->category->name ?? '-' }}</td>
+                    <td>
+                        <a href="{{ url('/post/projects/'.$project->id.'/edit') }}">Edit</a>
+                        
+                        <form action="{{ url('/post/projects/'.$project->id) }}" method="POST" style="display:inline;">
+                            @csrf
+                            @method('DELETE')
+                            <button type="submit" style="background: none; border: none; color: blue; cursor: pointer; text-decoration: underline;" onclick="return confirm('Yakin ingin menghapus?')">Hapus</button>
+                        </form>
+                    </td>
+                </tr>
+            @empty
+                <tr>
+                    <td colspan="5" style="text-align: center; padding: 20px;">Belum ada data project.</td>
+                </tr>
+            @endforelse
+        </tbody>
+    </table>
+
+    {{ $projects->links() }}
+</div>
+@endsection
