@@ -19,7 +19,7 @@ Route::get('/', [PortofolioController::class, 'home'])->name('home');
 Route::get('/about', [PortofolioController::class, 'about'])->name('about');
 Route::get('/education', [PortofolioController::class, 'education'])->name('education');
 Route::get('/projects', [PortofolioController::class, 'projects'])->name('projects');
-Route::get('/projects/{project}', [PortofolioController::class, 'show'])->name('projects.show');
+Route::get('/projects/{project:slug}', [PortofolioController::class, 'show'])->name('projects.show');
 
 Route::resource('posts', PostController::class);
 

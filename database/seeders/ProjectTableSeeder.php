@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use App\Models\Project;
 
 class ProjectTableSeeder extends Seeder
 {
@@ -12,9 +13,9 @@ class ProjectTableSeeder extends Seeder
      */
     public function run(): void
     {
-        for ($i = 1; $i <= 10; $i++) {
+        for ($i = 1; $i <= 30; $i++) {
             \App\Models\Project::create([
-                'title' => 'Project ' . $i,
+                'name' => 'Project ' . $i,
                 'description' => 'Description for Project ' . $i,
                 'category_id' => rand(1, 5), // Assuming you have 5 categories
                 'technology_id' => rand(1, 5), // Assuming you have 5 technologies
